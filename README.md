@@ -4,7 +4,7 @@
 </p>
 
 <p align="center">
-  <strong>The Ultimate All-in-One Gallery of 1,600+ AI Agent Skills for Hermes Agent</strong>
+  <strong>The Ultimate All-in-One Gallery of 1,672+ AI Agent Skills</strong>
 </p>
 
 <p align="center">
@@ -17,7 +17,7 @@
 
 ---
 
-**Skills Gallery** is the definitive collection of AI agent skills for [Hermes Agent](https://hermes-agent.nousresearch.com) by [uthuman Inc](https://github.com/uthumany). One command installs access to **1672+ skills** organized across **49 categories** — everything from frontend development to security auditing, from creative coding to multi-agent orchestration.
+**Skills Gallery** is the definitive collection of AI agent skills. One command installs access to **1,672+ skills** organized across **49 categories** — everything from frontend development to security auditing, from creative coding to multi-agent orchestration. Compatible with 60+ AI agent tools.
 
 ## ⚡ Quick Install — Every Package Manager
 
@@ -207,6 +207,6 @@ If you find this useful, please **star the repo** to help others discover it!
 ---
 
 <p align="center">
-  <strong>Built with ❤️ for the Hermes Agent community</strong><br>
+  <strong>Built with ❤️ by uthuman Inc</strong><br>
   <a href="https://github.com/uthumany/Skills-Gallery">github.com/uthumany/Skills-Gallery</a>
 </p>

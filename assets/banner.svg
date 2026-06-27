@@ -11,9 +11,10 @@
     </linearGradient>
   </defs>
   <rect width="800" height="200" fill="url(#bg)" rx="12"/>
-  <text x="400" y="70" text-anchor="middle" font-family="monospace" font-size="28" font-weight="bold" fill="url(#accent)">HERMES SKILLS GALLERY</text>
-  <text x="400" y="105" text-anchor="middle" font-family="monospace" font-size="16" fill="#a0a0c0">1,600+ AI Agent Skills — One Gallery. Every Category. Zero Friction.</text>
-  <text x="400" y="145" text-anchor="middle" font-family="monospace" font-size="13" fill="#606080">npm · yarn · pnpm · bun · curl · pip · uv · npx</text>
-  <rect x="250" y="165" width="300" height="20" rx="10" fill="none" stroke="#00d4ff" stroke-width="1" opacity="0.4"/>
-  <text x="400" y="180" text-anchor="middle" font-family="monospace" font-size="10" fill="#00d4ff">github.com/uthumany/Hermes-Skills-Gallery</text>
+  <text x="400" y="65" text-anchor="middle" font-family="monospace" font-size="32" font-weight="bold" fill="url(#accent)">SKILLS GALLERY</text>
+  <text x="400" y="100" text-anchor="middle" font-family="monospace" font-size="16" fill="#a0a0c0">1,672+ AI Agent Skills — 60+ Tools Compatible</text>
+  <text x="400" y="130" text-anchor="middle" font-family="monospace" font-size="12" fill="#8080a0">by uthuman Inc</text>
+  <text x="400" y="155" text-anchor="middle" font-family="monospace" font-size="13" fill="#606080">npm · yarn · pnpm · bun · curl · pip · uv · npx</text>
+  <rect x="250" y="170" width="300" height="18" rx="9" fill="none" stroke="#00d4ff" stroke-width="1" opacity="0.4"/>
+  <text x="400" y="183" text-anchor="middle" font-family="monospace" font-size="10" fill="#00d4ff">github.com/uthumany/Skills-Gallery</text>
 </svg>
