@@ -1,0 +1,339 @@
+{
+  "source": "mcpservers.org",
+  "source_url": "https://mcpservers.org/all",
+  "total_listed": 9185,
+  "total_extracted": 18,
+  "note": "More servers being extracted. Full catalog coming soon.",
+  "categories": {
+    "cloud-service": {
+      "name": "Cloud Service",
+      "count": 1,
+      "servers": [
+        {
+          "name": "Just Publish",
+          "url": "https://mcpservers.org/servers/just-done/just-publish-mcp",
+          "description": "Get your website online in seconds — just ask your AI assistant to publish it and Just Publish hands you a live link.",
+          "category": "cloud-service",
+          "github": "",
+          "official": true
+        }
+      ]
+    },
+    "database": {
+      "name": "Database",
+      "count": 1,
+      "servers": [
+        {
+          "name": "Query Streams MCP",
+          "url": "https://mcpservers.org/servers/query-streams-mcp",
+          "description": "Query Streams securely connects MCP clients to live databases through the Query Streams Cloud Network, with no VPNs, inbound ports, or complex setup.",
+          "category": "database",
+          "github": "",
+          "official": true
+        }
+      ]
+    },
+    "design": {
+      "name": "Design",
+      "count": 1,
+      "servers": [
+        {
+          "name": "svgapp.ai MCP",
+          "url": "https://mcpservers.org/servers/web-svgapp-ai-mcp",
+          "description": "Hosted MCP server for generating SVG illustrations, icons, and brand mascots with svgapp.ai from MCP-compatible AI clients.",
+          "category": "design",
+          "github": ""
+        }
+      ]
+    },
+    "development": {
+      "name": "Development",
+      "count": 4,
+      "servers": [
+        {
+          "name": "Neo",
+          "url": "https://docs.heyneo.com/neo-mcp",
+          "description": "NEO MCP lets Claude Code, Cursor and VS Code hand off complex AI engineering tasks like AI model evals, AI agent optimization.",
+          "category": "development",
+          "github": "",
+          "sponsor": true
+        },
+        {
+          "name": "Dawnguard",
+          "url": "https://mcpservers.org/servers/dawnguard-mcp",
+          "description": "Cloud security insights, guardrail guidance, and compliance checking via Dawnguard.",
+          "category": "development",
+          "github": "",
+          "official": true
+        },
+        {
+          "name": "Cron Scheduler MCP",
+          "url": "https://mcpservers.org/servers/friendlygeorge/cron-scheduler-mcp-server",
+          "description": "7 tools for AI agent cron job scheduling with SQLite persistence, retry logic, and structured observability. MIT license.",
+          "category": "development",
+          "github": "friendlygeorge/cron-scheduler-mcp-server"
+        },
+        {
+          "name": "Sparda",
+          "url": "https://mcpservers.org/servers/zyx77550/sparda",
+          "description": "Turn any codebase into an MCP server with one command. Express & FastAPI → Claude-ready in 3 minutes.",
+          "category": "development",
+          "github": "zyx77550/sparda"
+        }
+      ]
+    },
+    "file-system": {
+      "name": "File System",
+      "count": 1,
+      "servers": [
+        {
+          "name": "Universal Context Pipeline",
+          "url": "https://mcpservers.org/servers/akshay2211/universal-context-pipeline",
+          "description": "Local-first MCP server that indexes folders, PDFs, code, and past AI conversations — and exposes them as a single grounded-search tool. Runs fully offline.",
+          "category": "file-system",
+          "github": "akshay2211/universal-context-pipeline"
+        }
+      ]
+    },
+    "finance": {
+      "name": "Finance",
+      "count": 3,
+      "servers": [
+        {
+          "name": "Alpha Vantage MCP",
+          "url": "https://mcp.alphavantage.co",
+          "description": "Access financial market data: realtime & historical stock, ETF, options, forex, crypto, commodities, fundamentals, technical indicators.",
+          "category": "finance",
+          "github": "",
+          "sponsor": true
+        },
+        {
+          "name": "ROIC.AI Financial Data API",
+          "url": "https://mcpservers.org/servers/roicai-financial-data-api-mcp",
+          "description": "Access ROIC.AI financial data from AI tools, including company financials, ratios, prices, transcripts, and market research data.",
+          "category": "finance",
+          "github": "",
+          "official": true
+        },
+        {
+          "name": "Gainium",
+          "url": "https://mcpservers.org/servers/gainium-io-help-mcp",
+          "description": "Manage your crypto trading bots, deals, and backtests from your AI assistant.",
+          "category": "finance",
+          "github": ""
+        }
+      ]
+    },
+    "marketing": {
+      "name": "Marketing",
+      "count": 2,
+      "servers": [
+        {
+          "name": "Webotee Amazon MCP",
+          "url": "https://www.webotee.com",
+          "description": "Amazon brand, seller & niche intelligence — buy-box history, competing sellers, and under-competed niches.",
+          "category": "marketing",
+          "github": "",
+          "sponsor": true
+        },
+        {
+          "name": "Mentionkit MCP",
+          "url": "https://mcpservers.org/servers/mentionkit-com-mcp",
+          "description": "AI first social listening tool with MCP support.",
+          "category": "marketing",
+          "github": ""
+        }
+      ]
+    },
+    "productivity": {
+      "name": "Productivity",
+      "count": 1,
+      "servers": [
+        {
+          "name": "Capafy",
+          "url": "https://capafy.ai",
+          "description": "On Capafy, your Skill runs online 24/7 as an agent product, and you get paid every time someone uses it.",
+          "category": "productivity",
+          "github": "",
+          "sponsor": true
+        }
+      ]
+    },
+    "search": {
+      "name": "Search",
+      "count": 1,
+      "servers": [
+        {
+          "name": "Bluesky MCP",
+          "url": "https://mcpservers.org/servers/ravishka17/bluesky-mcp",
+          "description": "A remote MCP server for Bluesky social media platform.",
+          "category": "search",
+          "github": "ravishka17/bluesky-mcp"
+        }
+      ]
+    },
+    "web-scraping": {
+      "name": "Web Scraping",
+      "count": 3,
+      "servers": [
+        {
+          "name": "Bright Data",
+          "url": "https://get.brightdata.com/mcpservers",
+          "description": "Discover, extract, and interact with the web - one interface powering automated access across the public internet.",
+          "category": "web-scraping",
+          "github": ""
+        },
+        {
+          "name": "Talordata MCP",
+          "url": "https://mcpservers.org/servers/docs-talordata-com-serp-api-mcp-server-quick-start",
+          "description": "Get structured search results from Google, Bing, Yandex, DuckDuckGo, and more through one simple API.",
+          "category": "web-scraping",
+          "github": ""
+        },
+        {
+          "name": "StrajkPolski MCP",
+          "url": "https://mcpservers.org/servers/hei33enberg/strajkpolski-mcp",
+          "description": "MCP server for the public API of StrajkPolski.",
+          "category": "web-scraping",
+          "github": "hei33enberg/strajkpolski-mcp"
+        }
+      ]
+    }
+  },
+  "all_servers": [
+    {
+      "name": "Bright Data",
+      "url": "https://get.brightdata.com/mcpservers",
+      "description": "Discover, extract, and interact with the web - one interface powering automated access across the public internet.",
+      "category": "web-scraping",
+      "github": ""
+    },
+    {
+      "name": "Alpha Vantage MCP",
+      "url": "https://mcp.alphavantage.co",
+      "description": "Access financial market data: realtime & historical stock, ETF, options, forex, crypto, commodities, fundamentals, technical indicators.",
+      "category": "finance",
+      "github": "",
+      "sponsor": true
+    },
+    {
+      "name": "Neo",
+      "url": "https://docs.heyneo.com/neo-mcp",
+      "description": "NEO MCP lets Claude Code, Cursor and VS Code hand off complex AI engineering tasks like AI model evals, AI agent optimization.",
+      "category": "development",
+      "github": "",
+      "sponsor": true
+    },
+    {
+      "name": "Capafy",
+      "url": "https://capafy.ai",
+      "description": "On Capafy, your Skill runs online 24/7 as an agent product, and you get paid every time someone uses it.",
+      "category": "productivity",
+      "github": "",
+      "sponsor": true
+    },
+    {
+      "name": "Webotee Amazon MCP",
+      "url": "https://www.webotee.com",
+      "description": "Amazon brand, seller & niche intelligence — buy-box history, competing sellers, and under-competed niches.",
+      "category": "marketing",
+      "github": "",
+      "sponsor": true
+    },
+    {
+      "name": "Dawnguard",
+      "url": "https://mcpservers.org/servers/dawnguard-mcp",
+      "description": "Cloud security insights, guardrail guidance, and compliance checking via Dawnguard.",
+      "category": "development",
+      "github": "",
+      "official": true
+    },
+    {
+      "name": "Just Publish",
+      "url": "https://mcpservers.org/servers/just-done/just-publish-mcp",
+      "description": "Get your website online in seconds — just ask your AI assistant to publish it and Just Publish hands you a live link.",
+      "category": "cloud-service",
+      "github": "",
+      "official": true
+    },
+    {
+      "name": "ROIC.AI Financial Data API",
+      "url": "https://mcpservers.org/servers/roicai-financial-data-api-mcp",
+      "description": "Access ROIC.AI financial data from AI tools, including company financials, ratios, prices, transcripts, and market research data.",
+      "category": "finance",
+      "github": "",
+      "official": true
+    },
+    {
+      "name": "Query Streams MCP",
+      "url": "https://mcpservers.org/servers/query-streams-mcp",
+      "description": "Query Streams securely connects MCP clients to live databases through the Query Streams Cloud Network, with no VPNs, inbound ports, or complex setup.",
+      "category": "database",
+      "github": "",
+      "official": true
+    },
+    {
+      "name": "Mentionkit MCP",
+      "url": "https://mcpservers.org/servers/mentionkit-com-mcp",
+      "description": "AI first social listening tool with MCP support.",
+      "category": "marketing",
+      "github": ""
+    },
+    {
+      "name": "Cron Scheduler MCP",
+      "url": "https://mcpservers.org/servers/friendlygeorge/cron-scheduler-mcp-server",
+      "description": "7 tools for AI agent cron job scheduling with SQLite persistence, retry logic, and structured observability. MIT license.",
+      "category": "development",
+      "github": "friendlygeorge/cron-scheduler-mcp-server"
+    },
+    {
+      "name": "svgapp.ai MCP",
+      "url": "https://mcpservers.org/servers/web-svgapp-ai-mcp",
+      "description": "Hosted MCP server for generating SVG illustrations, icons, and brand mascots with svgapp.ai from MCP-compatible AI clients.",
+      "category": "design",
+      "github": ""
+    },
+    {
+      "name": "Sparda",
+      "url": "https://mcpservers.org/servers/zyx77550/sparda",
+      "description": "Turn any codebase into an MCP server with one command. Express & FastAPI → Claude-ready in 3 minutes.",
+      "category": "development",
+      "github": "zyx77550/sparda"
+    },
+    {
+      "name": "Talordata MCP",
+      "url": "https://mcpservers.org/servers/docs-talordata-com-serp-api-mcp-server-quick-start",
+      "description": "Get structured search results from Google, Bing, Yandex, DuckDuckGo, and more through one simple API.",
+      "category": "web-scraping",
+      "github": ""
+    },
+    {
+      "name": "Bluesky MCP",
+      "url": "https://mcpservers.org/servers/ravishka17/bluesky-mcp",
+      "description": "A remote MCP server for Bluesky social media platform.",
+      "category": "search",
+      "github": "ravishka17/bluesky-mcp"
+    },
+    {
+      "name": "Gainium",
+      "url": "https://mcpservers.org/servers/gainium-io-help-mcp",
+      "description": "Manage your crypto trading bots, deals, and backtests from your AI assistant.",
+      "category": "finance",
+      "github": ""
+    },
+    {
+      "name": "Universal Context Pipeline",
+      "url": "https://mcpservers.org/servers/akshay2211/universal-context-pipeline",
+      "description": "Local-first MCP server that indexes folders, PDFs, code, and past AI conversations — and exposes them as a single grounded-search tool. Runs fully offline.",
+      "category": "file-system",
+      "github": "akshay2211/universal-context-pipeline"
+    },
+    {
+      "name": "StrajkPolski MCP",
+      "url": "https://mcpservers.org/servers/hei33enberg/strajkpolski-mcp",
+      "description": "MCP server for the public API of StrajkPolski.",
+      "category": "web-scraping",
+      "github": "hei33enberg/strajkpolski-mcp"
+    }
+  ]
+}

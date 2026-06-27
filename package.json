@@ -1,7 +1,7 @@
 {
   "name": "skills-gallery",
-  "version": "2.0.0",
-  "description": "The all-in-one gallery of 1,672+ AI agent skills — browse, discover, and install skills from any AI agent tool",
+  "version": "3.0.0",
+  "description": "Skills Gallery — 1,672+ AI agent skills + 9,185 MCP servers. TUI-enhanced browser with themes, one-command installer. Compatible with 60+ tools.",
   "main": "index.js",
   "bin": {
     "skills-gallery": "cli.js",
