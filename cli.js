@@ -244,7 +244,13 @@ function loadCatalog() {
 }
 
 function loadMCP() {
-  try { return JSON.parse(fs.readFileSync(MCP_PATH, 'utf8')); }
+  try {
+    const data = JSON.parse(fs.readFileSync(MCP_PATH, 'utf8'));
+    // Normalize: ensure total field exists
+    if (!data.total && data.total_extracted) data.total = data.total_extracted;
+    if (!data.total && data.all_servers) data.total = data.all_servers.length;
+    return data;
+  }
   catch { return { total: 0, categories: {}, all_servers: [] }; }
 }
 
