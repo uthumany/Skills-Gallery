@@ -25,28 +25,31 @@ function box(text, borderColor) {
   borderColor = borderColor || C.bCyan;
   const lines = text.split('\n');
   const w = Math.max(...lines.map(l => strip(l).length)) + 4;
-  const top = borderColor + '╭' + '─'.repeat(w - 2) + '╮' + C.reset;
-  const bot = borderColor + '╰' + '─'.repeat(w - 2) + '╯' + C.reset;
+  const top = borderColor + '\u256d' + '\u2500'.repeat(w - 2) + '\u256e' + C.reset;
+  const bot = borderColor + '\u2570' + '\u2500'.repeat(w - 2) + '\u256f' + C.reset;
   const body = lines.map(l => {
     const c = strip(l);
-    return borderColor + '│' + C.reset + ' ' + l + ' '.repeat(w - c.length - 3) + borderColor + '│' + C.reset;
+    return borderColor + '\u2502' + C.reset + ' ' + l + ' '.repeat(w - c.length - 3) + borderColor + '\u2502' + C.reset;
   }).join('\n');
   return top + '\n' + body + '\n' + bot;
 }
 
-const BANNER = `
-${C.bMagenta}${C.bold}██╗  ██╗███████╗██████╗ ███╗   ███╗███████╗███████╗${C.reset}
-${C.magenta}${C.bold}██║  ██║██╔════╝██╔══██╗████╗ ████║██╔════╝██╔════╝${C.reset}
-${C.bMagenta}${C.bold}███████║█████╗  ██████╔╝██╔████╔██║█████╗  ███████╗${C.reset}
-${C.magenta}${C.bold}██╔══██║██╔══╝  ██╔══██╗██║╚██╔╝██║██╔══╝  ╚════██║${C.reset}
-${C.bMagenta}${C.bold}██║  ██║███████╗██║  ██║██║ ╚═╝ ██║███████╗███████║${C.reset}
-${C.magenta}${C.bold}╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚══════╝${C.reset}
-${C.bCyan}${C.bold}   ╔══════════════════════════════════════════════╗${C.reset}
-${C.bCyan}${C.bold}   ║${C.reset}     ${C.bWhite}Skills Gallery${C.reset} — ${C.dim}Uthuman & Co${C.reset}       ${C.bCyan}${C.bold}║${C.reset}
-${C.bCyan}${C.bold}   ╚══════════════════════════════════════════════╝${C.reset}
-   ${color('1,672+ AI Agent Skills — One Gallery. Every Category.', C.bWhite)}
-   ${color('npm · yarn · pnpm · bun · curl · pip · npx', C.dim)}
-`;
+const BANNER = [
+  color('\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557', C.bCyan),
+  color('\u2551  \u2588\u2580\u2580 \u2588\u2584\u2580 \u2588 \u2588\u2584\u2584 \u2588\u2584\u2584 \u2588\u2584\u2580 \u2551', C.bMagenta),
+  color('\u2551  \u2580\u2580\u2588 \u2588 \u2588 \u2588 \u2588\u2584\u2584 \u2588\u2584\u2584 \u2588\u2584\u2580 \u2551', C.magenta),
+  color('\u2551  \u2580\u2580\u2580 \u2580 \u2580 \u2580 \u2580\u2580\u2580 \u2580\u2580\u2580 \u2580 \u2580 \u2551', C.bMagenta),
+  color('\u2551                          \u2551', C.bCyan),
+  color('\u2551  \u2588\u2580\u2580 \u2588\u2580\u2588 \u2588\u2584\u2584 \u2588\u2584\u2584 \u2588\u2580\u2584 \u2588\u2584\u2588\u2551', C.bMagenta),
+  color('\u2551  \u2588\u2584\u2588 \u2588\u2580\u2588 \u2588\u2584\u2584 \u2588\u2584\u2584 \u2588\u2580\u2584  \u2588 \u2551', C.magenta),
+  color('\u2551  \u2580\u2580\u2580 \u2580 \u2580 \u2580\u2580\u2580 \u2580\u2580\u2580 \u2580 \u2580  \u2580 \u2551', C.bMagenta),
+  color('\u2551                          \u2551', C.bCyan),
+  color('\u2551   by uthuman Inc  \u25BE \u25B8 \u25B4 \u25B4\u2551', C.dim),
+  color('\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255d', C.bCyan),
+].join('\n');
+
+const SUBTITLE = `${color('1,672+ AI Agent Skills — 60+ Tools Compatible.', C.bWhite)}
+${color('npm \u00b7 yarn \u00b7 pnpm \u00b7 bun \u00b7 curl \u00b7 pip \u00b7 npx', C.dim)}`;
 
 function loadCatalog() {
   return JSON.parse(fs.readFileSync(CATALOG_PATH, 'utf8'));
@@ -55,10 +58,11 @@ function loadCatalog() {
 function showMainMenu(catalog) {
   clear();
   console.log(BANNER);
+  console.log(SUBTITLE);
   console.log('');
   const cats = Object.entries(catalog.categories).sort((a, b) => b[1].count - a[1].count);
   
-  let menu = color('📂  Browse by Category', C.bYellow, C.bold) + '\n\n';
+  let menu = color('\u{1F4C2}  Browse by Category', C.bYellow, C.bold) + '\n\n';
   for (let i = 0; i < Math.min(cats.length, 20); i++) {
     const [key, cat] = cats[i];
     menu += `  ${color(`[${String(i+1).padStart(2)}]`, C.bGreen)} ${cat.name.padEnd(30)} ${color(`(${cat.count} skills)`, C.dim)}\n`;
@@ -66,10 +70,10 @@ function showMainMenu(catalog) {
   if (cats.length > 20) {
     menu += `  ${color('...', C.dim)} ${color(`+${cats.length - 20} more categories`, C.dim)}\n`;
   }
-  menu += `\n  ${color('[S]', C.bGreen)} 🔍 Search Skills\n`;
-  menu += `  ${color('[L]', C.bGreen)} 📋 List All Categories\n`;
-  menu += `  ${color('[I]', C.bGreen)} ℹ️  Info & Stats\n`;
-  menu += `  ${color('[Q]', C.bGreen)} 🚪 Quit`;
+  menu += `\n  ${color('[S]', C.bGreen)} \u{1F50D} Search Skills\n`;
+  menu += `  ${color('[L]', C.bGreen)} \u{1F4CB} List All Categories\n`;
+  menu += `  ${color('[I]', C.bGreen)} \u2139\uFE0F  Info & Stats\n`;
+  menu += `  ${color('[Q]', C.bGreen)} \u{1F6AA} Quit`;
   console.log(box(menu, C.bCyan));
   console.log('');
   return { cats, totalCategories: cats.length };
@@ -80,6 +84,7 @@ function showCategoryView(catalog, catKey) {
   const cat = catalog.categories[catKey];
   if (!cat) return false;
   console.log(BANNER);
+  console.log(SUBTITLE);
   console.log('');
   console.log(box(
     `${color(cat.name, C.bWhite, C.bold)}\n` +
@@ -122,9 +127,10 @@ function showSearchResults(catalog, query) {
   clear();
   const results = searchSkills(catalog, query);
   console.log(BANNER);
+  console.log(SUBTITLE);
   console.log('');
   console.log(box(
-    `${color(`🔍  Search: "${query}"`, C.bYellow, C.bold)}\n` +
+    `${color(`\u{1F50D}  Search: "${query}"`, C.bYellow, C.bold)}\n` +
     `${color(`Found ${results.length} skills`, C.dim)}`,
     C.bCyan
   ));
@@ -151,12 +157,14 @@ function showInfo(catalog) {
   console.log('');
   const cats = Object.entries(catalog.categories);
   console.log(box(
-    `${color('ℹ️  Hermes Skills Gallery', C.bWhite, C.bold)}\n\n` +
+    `${color('\u2139\uFE0F  Skills Gallery', C.bWhite, C.bold)}\n\n` +
     `${color('Total Skills:', C.gray)}  ${color(String(catalog.total_skills), C.bGreen, C.bold)}\n` +
     `${color('Categories:', C.gray)}   ${color(String(cats.length), C.bYellow, C.bold)}\n` +
     `${color('Version:', C.gray)}      ${color(VERSION, C.dim)}\n` +
-    `${color('GitHub:', C.gray)}      ${color('github.com/uthumany/Hermes-Skills-Gallery', C.blue)}\n` +
-    `${color('npm:', C.gray)}         ${color('npm i -g hermes-skills-gallery', C.dim)}`,
+    `${color('Author:', C.gray)}       ${color('uthuman Inc', C.bBlue)}\n` +
+    `${color('GitHub:', C.gray)}       ${color('github.com/uthumany/Skills-Gallery', C.blue)}\n` +
+    `${color('npm:', C.gray)}          ${color('npm i -g skills-gallery', C.dim)}\n` +
+    `${color('Tools:', C.gray)}        ${color('60+ AI Agent Tools Compatible', C.bGreen)}`,
     C.bCyan
   ));
   console.log('');
@@ -167,9 +175,9 @@ function installSkill(name) {
   console.log(BANNER);
   console.log('');
   console.log(box(
-    `${color('📦  Install Skill', C.bYellow, C.bold)}\n\n` +
+    `${color('\u{1F4E6}  Install Skill', C.bYellow, C.bold)}\n\n` +
     `${color(name, C.bWhite, C.bold)}\n\n` +
-    `${color('Run this command in your terminal:', C.gray)}\n` +
+    `${color('Run:', C.gray)}\n` +
     `${color(`  hermes skills install ${name}`, C.bGreen, C.bold)}`,
     C.bCyan
   ));
@@ -232,7 +240,7 @@ async function interactive(catalog) {
       clear();
       console.log(BANNER);
       console.log('');
-      let list = color('📋  All Categories', C.bWhite, C.bold) + '\n\n';
+      let list = color('\u{1F4CB}  All Categories', C.bWhite, C.bold) + '\n\n';
       const sorted = Object.entries(catalog.categories).sort((a, b) => b[1].count - a[1].count);
       for (const [key, cat] of sorted) {
         list += `  ${color(cat.name.padEnd(30), C.bWhite)} ${color(`(${cat.count} skills)`, C.dim)}\n`;
@@ -252,7 +260,7 @@ async function interactive(catalog) {
   rl.close();
   clear();
   console.log(BANNER);
-  console.log(color('\n  Thanks for using Hermes Skills Gallery!\n', C.bGreen));
+  console.log(color('\n  Thanks for using Skills Gallery!\n', C.bGreen));
 }
 
 // ─── CLI Flag Mode ──────────────────────────────────────────────
@@ -260,14 +268,15 @@ const args = process.argv.slice(2);
 const flag = args[0] || '';
 
 if (flag === '--help' || flag === '-h') {
-  console.log(`Hermes Skills Gallery v${VERSION}`);
+  console.log(`Skills Gallery v${VERSION} — by uthuman Inc`);
   console.log('');
   console.log('Usage:');
-  console.log('  hermes-skills-gallery              Interactive browser');
-  console.log('  hermes-skills-gallery --list       List full catalog as JSON');
-  console.log('  hermes-skills-gallery --category <name>  Show a category');
-  console.log('  hermes-skills-gallery --search <query>   Search skills');
-  console.log('  hermes-skills-gallery --stats            Show stats');
+  console.log('  skills-gallery                 Interactive browser');
+  console.log('  skg                            Short alias');
+  console.log('  skills-gallery --list          List full catalog as JSON');
+  console.log('  skills-gallery --category <n>  Show a category');
+  console.log('  skills-gallery --search <q>    Search skills');
+  console.log('  skills-gallery --stats         Show stats');
   process.exit(0);
 }
 
@@ -288,6 +297,7 @@ if (flag === '--stats') {
   console.log(`Total Skills:  ${catalog.total_skills}`);
   console.log(`Categories:    ${cats.length}`);
   console.log(`Version:       ${VERSION}`);
+  console.log(`Author:        uthuman Inc`);
   console.log(`\nTop Categories:`);
   cats.sort((a, b) => b[1].count - a[1].count).slice(0, 10).forEach(([k, c]) => {
     console.log(`  ${c.name.padEnd(30)} ${c.count} skills`);
@@ -320,7 +330,6 @@ if (flag === '--category' && args[1]) {
   process.exit(0);
 }
 
-// No flags -> interactive mode
 interactive(catalog).catch(err => {
   console.error('Error:', err.message);
   process.exit(1);

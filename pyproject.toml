@@ -3,18 +3,19 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.backends._legacy:_Backend"
 
 [project]
-name = "hermes-skills-gallery"
-version = "1.0.1"
-description = "The ultimate all-in-one gallery of 1,600+ AI agent skills for Hermes Agent — browse, discover, and install skills by category from your terminal."
+name = "skills-gallery"
+version = "2.0.0"
+description = "The all-in-one gallery of 1,672+ AI agent skills — browse, discover, and install skills from any AI agent tool. Compatible with 60+ tools."
 readme = "README.md"
 license = {text = "MIT"}
 authors = [
-    {name = "Uthuman & Co", email = "dev@uthuman.com"}
+    {name = "uthuman Inc", email = "dev@uthuman.com"}
 ]
 keywords = [
-    "hermes-agent", "ai-skills", "ai-agents", "skills-gallery",
-    "agent-skills", "cli", "terminal", "automation", "developer-tools",
-    "ai-tools", "skill-management", "multi-agent", "hermes"
+    "skills", "gallery", "ai-skills", "ai-agents", "agent-skills",
+    "cli", "terminal", "automation", "developer-tools", "skill-management",
+    "hermes-agent", "claude-code", "codex", "gemini-cli", "aider",
+    "antigravity", "manus", "multi-agent"
 ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -39,17 +40,17 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/uthumany/Hermes-Skills-Gallery"
-Repository = "https://github.com/uthumany/Hermes-Skills-Gallery"
-Issues = "https://github.com/uthumany/Hermes-Skills-Gallery/issues"
-Changelog = "https://github.com/uthumany/Hermes-Skills-Gallery/blob/master/CHANGELOG.md"
+Homepage = "https://github.com/uthumany/Skills-Gallery"
+Repository = "https://github.com/uthumany/Skills-Gallery"
+Issues = "https://github.com/uthumany/Skills-Gallery/issues"
+Changelog = "https://github.com/uthumany/Skills-Gallery/blob/master/CHANGELOG.md"
 
 [project.scripts]
-hermes-skills = "hermes_skills_gallery.cli:main"
-hsk = "hermes_skills_gallery.cli:main"
+skills-gallery = "skills_gallery.cli:main"
+skg = "skills_gallery.cli:main"
 
 [tool.setuptools.packages.find]
-include = ["hermes_skills_gallery*"]
+include = ["skills_gallery*"]
 
 [tool.setuptools.package-data]
-hermes_skills_gallery = ["data/*.json"]
+skills_gallery = ["data/*.json"]

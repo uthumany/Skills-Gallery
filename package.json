@@ -1,11 +1,11 @@
 {
-  "name": "hermes-skills-gallery",
-  "version": "1.0.4",
-  "description": "A curated collection of powerful skills for Hermes Agent by Nous Research — browse, discover, and install skills from the command line",
+  "name": "skills-gallery",
+  "version": "2.0.0",
+  "description": "The all-in-one gallery of 1,672+ AI agent skills — browse, discover, and install skills from any AI agent tool",
   "main": "index.js",
   "bin": {
-    "hermes-skills-gallery": "cli.js",
-    "hsg": "cli.js"
+    "skills-gallery": "cli.js",
+    "skg": "cli.js"
   },
   "files": [
     "cli.js",
@@ -18,26 +18,37 @@
     "test": "node -e \"const g = require('./index.js'); console.log('Skills loaded:', g.stats.total_skills); console.log('Categories:', g.stats.total_categories);\""
   },
   "keywords": [
-    "hermes",
-    "hermes-agent",
     "skills",
     "gallery",
-    "nous-research",
     "ai",
+    "ai-agents",
+    "ai-skills",
+    "agent-skills",
     "cli",
+    "terminal",
     "catalog",
-    "skill-management"
+    "skill-management",
+    "hermes-agent",
+    "claude-code",
+    "codex",
+    "gemini-cli",
+    "aider",
+    "antigravity",
+    "manus",
+    "multi-agent",
+    "automation",
+    "developer-tools"
   ],
-  "author": "Uthuman & Co <dev@uthuman.com>",
+  "author": "uthuman Inc <dev@uthuman.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/uthumany/Hermes-Skills-Gallery.git"
+    "url": "git+https://github.com/uthumany/Skills-Gallery.git"
   },
   "bugs": {
-    "url": "https://github.com/uthumany/Hermes-Skills-Gallery/issues"
+    "url": "https://github.com/uthumany/Skills-Gallery/issues"
   },
-  "homepage": "https://github.com/uthumany/Hermes-Skills-Gallery#readme",
+  "homepage": "https://github.com/uthumany/Skills-Gallery#readme",
   "engines": {
     "node": ">=16.0.0"
   }

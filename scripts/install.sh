@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
-#
-# Hermes Skills Gallery — One-line installer
+# =============================================================================
+# Skills Gallery — One-Line Installer (by uthuman Inc)
+# =============================================================================
+# Install 1,672+ AI agent skills in one command. Compatible with 60+ tools.
 #
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/uthumany/Hermes-Skills-Gallery/master/scripts/install.sh | bash
-#
-# Or with npm:
-#   npm install -g hermes-skills-gallery
-#
+#   curl -fsSL https://raw.githubusercontent.com/uthumany/Skills-Gallery/master/scripts/install.sh | bash
+# =============================================================================
 
 set -euo pipefail
 
@@ -15,79 +14,107 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 CYAN='\033[0;36m'
-MAGENTA='\033[0;35m'
 BOLD='\033[1m'
-RESET='\033[0m'
+NC='\033[0m'
 
-echo ""
-echo -e "${MAGENTA}${BOLD}╔══════════════════════════════════════════════╗${RESET}"
-echo -e "${MAGENTA}${BOLD}║${RESET}     ${BOLD}Hermes Skills Gallery${RESET} — Installer         ${MAGENTA}${BOLD}║${RESET}"
-echo -e "${MAGENTA}${BOLD}╚══════════════════════════════════════════════╝${RESET}"
-echo ""
+REPO_URL="https://github.com/uthumany/Skills-Gallery.git"
+REPO_DIR="$HOME/.skills-gallery"
+PACKAGE_MANAGER="${1:-auto}"
 
-# ─── Detect package manager ────────────────────────────────────────────
-detect_package_manager() {
-  if command -v npm &> /dev/null; then
-    echo "npm"
-  elif command -v yarn &> /dev/null; then
-    echo "yarn"
-  elif command -v pnpm &> /dev/null; then
-    echo "pnpm"
-  elif command -v bun &> /dev/null; then
-    echo "bun"
-  else
+banner() {
+    echo -e "${CYAN}"
+    echo "╔══════════════════════════╗"
+    echo "║  █▀▀ █▄▀ █ █▄▄ █▄▄ █▄▀ ║"
+    echo "║  ▀▀█ █ █ █ █▄▄ █▄▄ █▄▀ ║"
+    echo "║  ▀▀▀ ▀ ▀ ▀ ▀▀▀ ▀▀▀ ▀ ▀ ║"
+    echo "║                          ║"
+    echo "║  █▀▀ █▀█ █▄▄ █▄▄ █▀▄ █▄█║"
+    echo "║  █▄█ █▀█ █▄▄ █▄▄ █▀▄  █ ║"
+    echo "║  ▀▀▀ ▀ ▀ ▀▀▀ ▀▀▀ ▀ ▀  ▀ ║"
+    echo "║                          ║"
+    echo "║   by uthuman Inc  ▾ ▸ ▴ ▴║"
+    echo "╚══════════════════════════╝"
+    echo -e "${NC}"
+    echo -e "${BOLD}  1,672+ AI Agent Skills — 60+ Tools Compatible${NC}"
     echo ""
-  fi
 }
 
-# ─── Check Node.js ─────────────────────────────────────────────────────
-if ! command -v node &> /dev/null; then
-  echo -e "${RED}✖ Node.js is not installed.${RESET}"
-  echo -e "  Please install Node.js >= 16 from ${CYAN}https://nodejs.org${RESET}"
-  echo ""
-  exit 1
+detect_pm() {
+    if command -v bun &>/dev/null; then echo "bun"
+    elif command -v pnpm &>/dev/null; then echo "pnpm"
+    elif command -v yarn &>/dev/null; then echo "yarn"
+    elif command -v npm &>/dev/null; then echo "npm"
+    else echo ""; fi
+}
+
+install_via_npm() {
+    echo -e "${GREEN}→ Installing via npm...${NC}"
+    npm install -g skills-gallery
+}
+
+install_via_yarn() {
+    echo -e "${GREEN}→ Installing via yarn...${NC}"
+    yarn global add skills-gallery
+}
+
+install_via_pnpm() {
+    echo -e "${GREEN}→ Installing via pnpm...${NC}"
+    pnpm add -g skills-gallery
+}
+
+install_via_bun() {
+    echo -e "${GREEN}→ Installing via bun...${NC}"
+    bun add -g skills-gallery
+}
+
+install_via_pip() {
+    echo -e "${GREEN}→ Installing via pip...${NC}"
+    pip install skills-gallery
+}
+
+install_via_uv() {
+    echo -e "${GREEN}→ Installing via uv...${NC}"
+    uv tool install skills-gallery
+}
+
+install_via_curl() {
+    echo -e "${GREEN}→ Cloning repo...${NC}"
+    if [ -d "$REPO_DIR" ]; then
+        cd "$REPO_DIR" && git pull origin master
+    else
+        git clone "$REPO_URL" "$REPO_DIR"
+    fi
+    echo -e "${GREEN}✓ Repo at $REPO_DIR${NC}"
+    echo "  cd $REPO_DIR && pip install -e ."
+    echo "  skills-gallery list"
+}
+
+banner
+
+if [ "$PACKAGE_MANAGER" = "auto" ]; then
+    PACKAGE_MANAGER=$(detect_pm)
 fi
 
-NODE_VERSION=$(node -v | sed 's/v//' | cut -d. -f1)
-echo -e "${GREEN}✔${RESET} Node.js $(node -v) detected"
-
-if [ "$NODE_VERSION" -lt 16 ]; then
-  echo -e "${YELLOW}⚠${RESET}  Node.js >= 16 recommended (you have v$(node -v))"
-fi
-
-# ─── Install ───────────────────────────────────────────────────────────
-PM=$(detect_package_manager)
-
-if [ -z "$PM" ]; then
-  echo -e "${RED}✖ No package manager found.${RESET}"
-  echo -e "  Please install npm, yarn, pnpm, or bun first."
-  exit 1
-fi
-
-echo -e "${GREEN}✔${RESET} Using ${BOLD}${PM}${RESET} to install..."
-echo ""
-
-case "$PM" in
-  npm)
-    npm install -g hermes-skills-gallery
-    ;;
-  yarn)
-    yarn global add hermes-skills-gallery
-    ;;
-  pnpm)
-    pnpm add -g hermes-skills-gallery
-    ;;
-  bun)
-    bun add -g hermes-skills-gallery
-    ;;
+case "$PACKAGE_MANAGER" in
+    npm)    install_via_npm ;;
+    yarn)   install_via_yarn ;;
+    pnpm)   install_via_pnpm ;;
+    bun)    install_via_bun ;;
+    pip)    install_via_pip ;;
+    uv)     install_via_uv ;;
+    python) install_via_pip ;;
+    curl)   install_via_curl ;;
+    *)      install_via_curl ;;
 esac
 
 echo ""
-echo -e "${GREEN}${BOLD}✅ Hermes Skills Gallery installed successfully!${RESET}"
-echo ""
-echo -e "  Run it with:  ${CYAN}hermes-skills-gallery${RESET}"
-echo -e "  Or:           ${CYAN}hsg${RESET}"
-echo -e "  Or via npx:   ${CYAN}npx hermes-skills-gallery${RESET}"
-echo ""
-echo -e "  ${YELLOW}🔗 GitHub:${RESET} https://github.com/uthumany/Hermes-Skills-Gallery"
-echo ""
+echo -e "${GREEN}╔══════════════════════════════════════╗${NC}"
+echo -e "${GREEN}║  ✓ Skills Gallery installed!        ║${NC}"
+echo -e "${GREEN}║                                      ║${NC}"
+echo -e "${GREEN}║  skills-gallery list   — Categories  ║${NC}"
+echo -e "${GREEN}║  skills-gallery search — Find skills ║${NC}"
+echo -e "${GREEN}║  skills-gallery stats  — Stats       ║${NC}"
+echo -e "${GREEN}║  skg                    — Short alias║${NC}"
+echo -e "${GREEN}║                                      ║${NC}"
+echo -e "${GREEN}║  github.com/uthumany/Skills-Gallery  ║${NC}"
+echo -e "${GREEN}╚══════════════════════════════════════╝${NC}"

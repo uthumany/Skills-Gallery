@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/uthumany/Hermes-Skills-Gallery/master/assets/banner.svg" alt="Hermes Skills Gallery" width="800" />
+  <img src="https://raw.githubusercontent.com/uthumany/Skills-Gallery/master/assets/banner.svg" alt="Skills Gallery" width="800" />
 </p>
 
 <p align="center">
@@ -8,36 +8,36 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/hermes-skills-gallery"><img src="https://img.shields.io/npm/v/hermes-skills-gallery?color=blue&label=npm" alt="npm version"></a>
-  <a href="https://github.com/uthumany/Hermes-Skills-Gallery/blob/master/LICENSE"><img src="https://img.shields.io/github/license/uthumany/Hermes-Skills-Gallery" alt="License: MIT"></a>
-  <a href="https://github.com/uthumany/Hermes-Skills-Gallery"><img src="https://img.shields.io/badge/skills-1672-brightgreen" alt="Skills Count"></a>
-  <a href="https://github.com/uthumany/Hermes-Skills-Gallery"><img src="https://img.shields.io/badge/categories-49-orange" alt="Categories"></a>
-  <a href="https://github.com/uthumany/Hermes-Skills-Gallery"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
+  <a href="https://www.npmjs.com/package/skills-gallery"><img src="https://img.shields.io/npm/v/skills-gallery?color=blue&label=npm" alt="npm version"></a>
+  <a href="https://github.com/uthumany/Skills-Gallery/blob/master/LICENSE"><img src="https://img.shields.io/github/license/uthumany/Skills-Gallery" alt="License: MIT"></a>
+  <a href="https://github.com/uthumany/Skills-Gallery"><img src="https://img.shields.io/badge/skills-1672-brightgreen" alt="Skills Count"></a>
+  <a href="https://github.com/uthumany/Skills-Gallery"><img src="https://img.shields.io/badge/categories-49-orange" alt="Categories"></a>
+  <a href="https://github.com/uthumany/Skills-Gallery"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
 </p>
 
 ---
 
-**Hermes Skills Gallery** is the definitive collection of AI agent skills for [Hermes Agent](https://hermes-agent.nousresearch.com) by [Nous Research](https://nousresearch.com). One command installs access to **1672+ skills** organized across **49 categories** — everything from frontend development to security auditing, from creative coding to multi-agent orchestration.
+**Skills Gallery** is the definitive collection of AI agent skills for [Hermes Agent](https://hermes-agent.nousresearch.com) by [uthuman Inc](https://github.com/uthumany). One command installs access to **1672+ skills** organized across **49 categories** — everything from frontend development to security auditing, from creative coding to multi-agent orchestration.
 
 ## ⚡ Quick Install — Every Package Manager
 
 | Package Manager | Install Command |
 |----------------|-----------------|
-| **npm** | `npm install -g hermes-skills-gallery` |
-| **yarn** | `yarn global add hermes-skills-gallery` |
-| **pnpm** | `pnpm add -g hermes-skills-gallery` |
-| **bun** | `bun add -g hermes-skills-gallery` |
-| **npx** (no install) | `npx hermes-skills-gallery` |
-| **curl** | `curl -fsSL https://raw.githubusercontent.com/uthumany/Hermes-Skills-Gallery/master/scripts/install.sh \| bash` |
-| **pip** | `pip install hermes-skills-gallery` |
-| **uv** | `uv tool install hermes-skills-gallery` |
+| **npm** | `npm install -g skills-gallery` |
+| **yarn** | `yarn global add skills-gallery` |
+| **pnpm** | `pnpm add -g skills-gallery` |
+| **bun** | `bun add -g skills-gallery` |
+| **npx** (no install) | `npx skills-gallery` |
+| **curl** | `curl -fsSL https://raw.githubusercontent.com/uthumany/Skills-Gallery/master/scripts/install.sh \| bash` |
+| **pip** | `pip install skills-gallery` |
+| **uv** | `uv tool install skills-gallery` |
 
 ```bash
 # One command, every skill
-npx hermes-skills-gallery
+npx skills-gallery
 ```
 
-## 🎯 Why Hermes Skills Gallery?
+## 🎯 Why Skills Gallery?
 
 - **1,600+ Skills** — The largest collection of AI agent skills on the internet
 - **49 Categories** — Organized by domain: Dev, Design, AI, Security, DevOps, and more
@@ -64,26 +64,80 @@ npx hermes-skills-gallery
 | 💼 Business & Productivity | **119** | Project Management, CRM & Sales, E-Commerce |
 | 🖥️ Desktop & Gaming | **10** | Game Development |
 
+## 🔧 Compatible With 60+ AI Agent Tools
+
+Skills Gallery integrates seamlessly with **60+ AI agent tools** across every platform — autonomous agents, CLI tools, IDEs, and web-based environments. One skill catalog, everywhere you work.
+
+---
+
+### 🤖 Autonomous Agentic AI Agents
+
+| Tool | Tool | Tool |
+|------|------|------|
+| Google Antigravity | Manus | Hermes Agent |
+| OpenManus | Open-Agent | agenticSeek |
+| Open Human | OWL | OpenHands |
+| Lemon AI | GWL | Oclai |
+| AiPy | Pi.dev | Codex |
+
+---
+
+### ⌨️ CLI Autonomous Agents
+
+| Tool | Tool | Tool |
+|------|------|------|
+| Gemini CLI | OpenCLI | OpenClaw |
+| OpenCode | QWEN Code | Aider |
+| Warp | Claude Code | Crush |
+| Amp | Goose | Droid |
+| OWL CLI | agenticSeek CLI | Codex CLI |
+
+---
+
+### 🖥️ IDE Autonomous Agents
+
+| Tool | Tool | Tool |
+|------|------|------|
+| VS Code | Cline | Claude Code |
+| Aider | OpenHands | OpenCode IDE |
+| QWEN Code Studio | Codex IDE | Gemini Code Assist |
+| DeepSeek IDE | Warp IDE | Amp IDE |
+| Crush IDE | Goose IDE | Droid Studio |
+
+---
+
+### 🌐 Web Autonomous Agents
+
+| Tool | Tool | Tool |
+|------|------|------|
+| lovable.dev | DeepSeek GUI | Pi.dev |
+| OpenManus Web | Open-Agent Web | agenticSeek Web |
+| Lemon AI Web | Oclai Web | Open Human Web |
+| OWL Web | OpenHands Web | browser-use |
+| GWL Web | Manus Web | Google Antigravity Web |
+
+---
+
 ## 🚀 Usage
 
 ### Interactive Mode
 ```bash
-hermes-skills-gallery          # Full interactive browser
-hsk                           # Short alias
+skills-gallery                # Full interactive browser
+skg                           # Short alias
 ```
 
 ### Command Line
 ```bash
-hermes-skills list             # Browse all categories
-hermes-skills search "docker"  # Search skills
-hermes-skills category devops  # Browse a category
-hermes-skills stats            # View gallery stats
-hermes-skills install <name>   # Install a skill via hermes CLI
+skills-gallery list             # Browse all categories
+skills-gallery search "docker"  # Search skills
+skills-gallery category devops  # Browse a category
+skills-gallery stats            # View gallery stats
+skills-gallery install <name>   # Install a skill via hermes CLI
 ```
 
 ### Python API
 ```python
-from hermes_skills_gallery import load_catalog
+from skills_gallery import load_catalog
 catalog = load_catalog()
 print(catalog['total_skills'])  # 1672
 for cat in catalog['categories']:
@@ -92,7 +146,7 @@ for cat in catalog['categories']:
 
 ### Node.js API
 ```js
-const gallery = require('hermes-skills-gallery');
+const gallery = require('skills-gallery');
 console.log(gallery.stats());       // { total_skills, total_categories }
 console.log(gallery.listCategories()); // All categories
 console.log(gallery.search('react'));  // Search results
@@ -101,7 +155,7 @@ console.log(gallery.search('react'));  // Search results
 ## 📁 Project Structure
 
 ```
-Hermes-Skills-Gallery/
+Skills-Gallery/
 ├── README.md                   # You are here
 ├── LICENSE                     # MIT License
 ├── CHANGELOG.md                # Release history
@@ -112,7 +166,7 @@ Hermes-Skills-Gallery/
 ├── package.json                # npm package config
 ├── cli.js                      # Node.js CLI entry point
 ├── index.js                    # Node.js API
-├── hermes_skills_gallery/      # Python package
+├── skills_gallery/             # Python package
 │   ├── __init__.py
 │   ├── cli.py                  # Python CLI
 │   └── data/                   # Skills catalog data
@@ -132,7 +186,7 @@ Hermes-Skills-Gallery/
 
 ## 🏷️ GitHub Topics
 
-`hermes-agent` `ai-skills` `agent-skills` `ai-agents` `cli-tool` `terminal` `developer-tools` `automation` `skill-management` `nous-research` `multi-agent` `ai-engineering` `devops` `security` `frontend` `backend` `ml-engineering` `creative-coding` `npm-package` `python-package`
+`hermes-agent` `ai-skills` `agent-skills` `ai-agents` `cli-tool` `terminal` `developer-tools` `automation` `skill-management` `uthuman-inc` `multi-agent` `ai-engineering` `devops` `security` `frontend` `backend` `ml-engineering` `creative-coding` `npm-package` `python-package`
 
 ## 🤝 Contributing
 
@@ -144,7 +198,7 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for:
 
 ## 📄 License
 
-MIT © [Uthuman & Co](https://github.com/uthumany)
+MIT © [uthuman Inc](https://github.com/uthumany)
 
 ## ⭐ Star History
 
@@ -154,5 +208,5 @@ If you find this useful, please **star the repo** to help others discover it!
 
 <p align="center">
   <strong>Built with ❤️ for the Hermes Agent community</strong><br>
-  <a href="https://github.com/uthumany/Hermes-Skills-Gallery">github.com/uthumany/Hermes-Skills-Gallery</a>
+  <a href="https://github.com/uthumany/Skills-Gallery">github.com/uthumany/Skills-Gallery</a>
 </p>
