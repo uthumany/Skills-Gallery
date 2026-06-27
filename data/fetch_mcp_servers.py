@@ -154,7 +154,7 @@ def main():
     print(f"Total pages: {total_pages}, Total servers: {total_servers_count}")
     
     # Fetch all pages
-    for page in range(1, min(total_pages + 1, 50)):  # Start with 50 pages
+    for page in range(1, total_pages + 1):
         if page > 1:
             data = fetch_page(page)
             servers = extract_servers(data) if data else []
