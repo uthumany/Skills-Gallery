@@ -1,93 +1,39 @@
 #!/usr/bin/env node
-
-/**
- * Hermes Skills Gallery — Interactive CLI
- *
- * A visually stunning terminal app for browsing, discovering,
- * and installing skills for Hermes Agent by Nous Research.
- *
- * Uses only built-in Node.js modules — zero external dependencies.
- */
-
 'use strict';
 
 const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
-const { execSync } = require('child_process');
 
-// ─── Constants ───────────────────────────────────────────────────────────────
 const CATALOG_PATH = path.join(__dirname, 'data', 'skills-catalog.json');
-const VERSION = '1.0.1';
+const PKG = JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json'), 'utf8'));
+const VERSION = PKG.version;
 
-// ─── Color Palette ───────────────────────────────────────────────────────────
 const C = {
-  reset:   '\x1b[0m',
-  bold:    '\x1b[1m',
-  dim:     '\x1b[2m',
-  italic:  '\x1b[3m',
-  underline:'\x1b[4m',
-
-  // Foreground
-  black:   '\x1b[30m',
-  red:     '\x1b[31m',
-  green:   '\x1b[32m',
-  yellow:  '\x1b[33m',
-  blue:    '\x1b[34m',
-  magenta: '\x1b[35m',
-  cyan:    '\x1b[36m',
-  white:   '\x1b[37m',
-  gray:    '\x1b[90m',
-
-  // Bright foreground
-  bRed:    '\x1b[91m',
-  bGreen:  '\x1b[92m',
-  bYellow: '\x1b[93m',
-  bBlue:   '\x1b[94m',
-  bMagenta:'\x1b[95m',
-  bCyan:   '\x1b[96m',
-  bWhite:  '\x1b[97m',
-
-  // Background
-  bgBlue:  '\x1b[44m',
-  bgMagenta:'\x1b[45m',
-  bgCyan:  '\x1b[46m',
+  reset: '\x1b[0m', bold: '\x1b[1m', dim: '\x1b[2m',
+  red: '\x1b[31m', green: '\x1b[32m', yellow: '\x1b[33m',
+  blue: '\x1b[34m', magenta: '\x1b[35m', cyan: '\x1b[36m', white: '\x1b[37m', gray: '\x1b[90m',
+  bRed: '\x1b[91m', bGreen: '\x1b[92m', bYellow: '\x1b[93m',
+  bBlue: '\x1b[94m', bMagenta: '\x1b[95m', bCyan: '\x1b[96m', bWhite: '\x1b[97m',
 };
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
-function colorize(text, ...colors) {
-  return colors.join('') + text + C.reset;
-}
+function color(text, ...codes) { return codes.join('') + text + C.reset; }
+function strip(s) { return s.replace(/\x1b\[[0-9;]*m/g, ''); }
+function clear() { process.stdout.write('\x1b[2J\x1b[H'); }
 
-function pad(str, len) {
-  return str + ' '.repeat(Math.max(0, len - stripAnsi(str).length));
-}
-
-function stripAnsi(str) {
-  return str.replace(/\x1b\[[0-9;]*m/g, '');
-}
-
-function box(text, color = C.bCyan) {
+function box(text, borderColor) {
+  borderColor = borderColor || C.bCyan;
   const lines = text.split('\n');
-  const width = Math.max(...lines.map(l => stripAnsi(l).length)) + 4;
-  const top = color + '╭' + '─'.repeat(width - 2) + '╮' + C.reset;
-  const bottom = color + '╰' + '─'.repeat(width - 2) + '╯' + C.reset;
+  const w = Math.max(...lines.map(l => strip(l).length)) + 4;
+  const top = borderColor + '╭' + '─'.repeat(w - 2) + '╮' + C.reset;
+  const bot = borderColor + '╰' + '─'.repeat(w - 2) + '╯' + C.reset;
   const body = lines.map(l => {
-    const clean = stripAnsi(l);
-    return color + '│' + C.reset + ' ' + l + ' '.repeat(width - clean.length - 3) + color + '│' + C.reset;
+    const c = strip(l);
+    return borderColor + '│' + C.reset + ' ' + l + ' '.repeat(w - c.length - 3) + borderColor + '│' + C.reset;
   }).join('\n');
-  return top + '\n' + body + '\n' + bottom;
+  return top + '\n' + body + '\n' + bot;
 }
 
-function clearScreen() {
-  process.stdout.write('\x1b[2J\x1b[H');
-}
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-// ─── Banner ──────────────────────────────────────────────────────────────────
 const BANNER = `
 ${C.bMagenta}${C.bold}██╗  ██╗███████╗██████╗ ███╗   ███╗███████╗███████╗${C.reset}
 ${C.magenta}${C.bold}██║  ██║██╔════╝██╔══██╗████╗ ████║██╔════╝██╔════╝${C.reset}
@@ -96,289 +42,150 @@ ${C.magenta}${C.bold}██╔══██║██╔══╝  ██╔══
 ${C.bMagenta}${C.bold}██║  ██║███████╗██║  ██║██║ ╚═╝ ██║███████╗███████║${C.reset}
 ${C.magenta}${C.bold}╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚══════╝${C.reset}
 ${C.bCyan}${C.bold}   ╔══════════════════════════════════════════════╗${C.reset}
-${C.bCyan}${C.bold}   ║${C.reset}     ${C.bWhite}Skills Gallery${C.reset} — ${C.dim}by Nous Research${C.reset}       ${C.bCyan}${C.bold}║${C.reset}
-${C.bCyan}${C.bold}   ╚══════════════════════════════════════════════╝${C.reset}`;
+${C.bCyan}${C.bold}   ║${C.reset}     ${C.bWhite}Skills Gallery${C.reset} — ${C.dim}Uthuman & Co${C.reset}       ${C.bCyan}${C.bold}║${C.reset}
+${C.bCyan}${C.bold}   ╚══════════════════════════════════════════════╝${C.reset}
+   ${color('1,672+ AI Agent Skills — One Gallery. Every Category.', C.bWhite)}
+   ${color('npm · yarn · pnpm · bun · curl · pip · npx', C.dim)}
+`;
 
-// ─── Data Loading ────────────────────────────────────────────────────────────
 function loadCatalog() {
-  const raw = fs.readFileSync(CATALOG_PATH, 'utf8');
-  return JSON.parse(raw);
+  return JSON.parse(fs.readFileSync(CATALOG_PATH, 'utf8'));
 }
 
-// ─── UI Components ───────────────────────────────────────────────────────────
-function renderSkillCard(skill, index) {
-  const tagStr = skill.tags.map(t => colorize(`#${t}`, C.dim)).join(' ');
-  const lines = [
-    `${colorize(`[${String(index).padStart(2, '0')}]`, C.bYellow)} ${colorize(skill.name, C.bWhite, C.bold)} ${colorize(`v${skill.version}`, C.dim)}`,
-    `    ${C.dim}${skill.description}${C.reset}`,
-    `    ${tagStr}  ${colorize('by', C.dim)} ${skill.author}`,
-    '',
-  ];
-  return lines.join('\n');
-}
-
-function renderCategoryHeader(category, count) {
-  return `\n${colorize('┌' + '─'.repeat(58) + '┐', C.bCyan)}
-${colorize('│', C.bCyan)} ${colorize(category.name, C.bWhite, C.bold)} ${colorize(`(${count} skills)`, C.dim)}${' '.repeat(Math.max(0, 56 - stripAnsi(category.name).length - String(count).length - 10))}${colorize('│', C.bCyan)}
-${colorize('│', C.bCyan)} ${C.dim}${category.description}${C.reset}${' '.repeat(Math.max(0, 56 - stripAnsi(category.description).length))}${colorize('│', C.bCyan)}
-${colorize('└' + '─'.repeat(58) + '┘', C.bCyan)}`;
-}
-
-// ─── Main Menu ───────────────────────────────────────────────────────────────
 function showMainMenu(catalog) {
-  clearScreen();
+  clear();
   console.log(BANNER);
   console.log('');
+  const cats = Object.entries(catalog.categories).sort((a, b) => b[1].count - a[1].count);
+  
+  let menu = color('📂  Browse by Category', C.bYellow, C.bold) + '\n\n';
+  for (let i = 0; i < Math.min(cats.length, 20); i++) {
+    const [key, cat] = cats[i];
+    menu += `  ${color(`[${String(i+1).padStart(2)}]`, C.bGreen)} ${cat.name.padEnd(30)} ${color(`(${cat.count} skills)`, C.dim)}\n`;
+  }
+  if (cats.length > 20) {
+    menu += `  ${color('...', C.dim)} ${color(`+${cats.length - 20} more categories`, C.dim)}\n`;
+  }
+  menu += `\n  ${color('[S]', C.bGreen)} 🔍 Search Skills\n`;
+  menu += `  ${color('[L]', C.bGreen)} 📋 List All Categories\n`;
+  menu += `  ${color('[I]', C.bGreen)} ℹ️  Info & Stats\n`;
+  menu += `  ${color('[Q]', C.bGreen)} 🚪 Quit`;
+  console.log(box(menu, C.bCyan));
+  console.log('');
+  return { cats, totalCategories: cats.length };
+}
 
-  const cats = Object.entries(catalog.categories);
+function showCategoryView(catalog, catKey) {
+  clear();
+  const cat = catalog.categories[catKey];
+  if (!cat) return false;
+  console.log(BANNER);
+  console.log('');
   console.log(box(
-    `${colorize('📂  Browse by Category', C.bYellow, C.bold)}\n\n` +
-    cats.map(([key, cat], i) =>
-      `  ${colorize(`[${i + 1}]`, C.bGreen)} ${cat.name.padEnd(30)} ${colorize(`(${Object.keys(cat.skills).length} skills)`, C.dim)}`
-    ).join('\n') + '\n\n' +
-    `  ${colorize('[F]', C.bGreen)} 🔥 Featured Skills          ${colorize('[S]', C.bGreen)} 🔍 Search\n` +
-    `  ${colorize('[A]', C.bGreen)} 📋 All Skills               ${colorize('[I]', C.bGreen)} ℹ️  About\n` +
-    `  ${colorize('[Q]', C.bGreen)} 🚪 Quit`,
+    `${color(cat.name, C.bWhite, C.bold)}\n` +
+    `${color(cat.description || '', C.dim)}\n` +
+    `${color(`${cat.count} skills`, C.bYellow)}`,
     C.bCyan
   ));
+  console.log('');
+  const skills = cat.skills || [];
+  for (let i = 0; i < Math.min(skills.length, 15); i++) {
+    const s = skills[i];
+    console.log(`  ${color(`[${String(i+1).padStart(3)}]`, C.bYellow)} ${color(s.name, C.bWhite, C.bold)}`);
+    if (s.description) {
+      const desc = s.description.length > 100 ? s.description.slice(0, 100) + '...' : s.description;
+      console.log(`       ${color(desc, C.dim)}`);
+    }
+  }
+  if (skills.length > 15) {
+    console.log(`  ${color(`... +${skills.length - 15} more skills`, C.dim)}`);
+  }
+  console.log('');
+  console.log(color('  [B] Back  [I <name>] Install  [Q] Quit', C.gray));
+  return true;
+}
 
+function searchSkills(catalog, query) {
+  const q = query.toLowerCase();
+  const results = [];
+  for (const [catKey, cat] of Object.entries(catalog.categories)) {
+    for (const skill of (cat.skills || [])) {
+      if (skill.name.toLowerCase().includes(q) || (skill.description || '').toLowerCase().includes(q)) {
+        results.push({ category: cat.name, catKey, ...skill });
+      }
+    }
+  }
+  return results;
+}
+
+function showSearchResults(catalog, query) {
+  clear();
+  const results = searchSkills(catalog, query);
+  console.log(BANNER);
+  console.log('');
+  console.log(box(
+    `${color(`🔍  Search: "${query}"`, C.bYellow, C.bold)}\n` +
+    `${color(`Found ${results.length} skills`, C.dim)}`,
+    C.bCyan
+  ));
+  console.log('');
+  for (let i = 0; i < Math.min(results.length, 20); i++) {
+    const r = results[i];
+    console.log(`  ${color(`[${String(i+1).padStart(2)}]`, C.bYellow)} ${color(r.name, C.bWhite, C.bold)} ${color(`[${r.category}]`, C.dim)}`);
+    if (r.description) {
+      const desc = r.description.length > 90 ? r.description.slice(0, 90) + '...' : r.description;
+      console.log(`       ${color(desc, C.dim)}`);
+    }
+  }
+  if (results.length > 20) {
+    console.log(`  ${color(`... +${results.length - 20} more results`, C.dim)}`);
+  }
+  console.log('');
+  console.log(color('  [B] Back  [N] New search  [I <name>] Install  [Q] Quit', C.gray));
+  return results;
+}
+
+function showInfo(catalog) {
+  clear();
+  console.log(BANNER);
+  console.log('');
+  const cats = Object.entries(catalog.categories);
+  console.log(box(
+    `${color('ℹ️  Hermes Skills Gallery', C.bWhite, C.bold)}\n\n` +
+    `${color('Total Skills:', C.gray)}  ${color(String(catalog.total_skills), C.bGreen, C.bold)}\n` +
+    `${color('Categories:', C.gray)}   ${color(String(cats.length), C.bYellow, C.bold)}\n` +
+    `${color('Version:', C.gray)}      ${color(VERSION, C.dim)}\n` +
+    `${color('GitHub:', C.gray)}      ${color('github.com/uthumany/Hermes-Skills-Gallery', C.blue)}\n` +
+    `${color('npm:', C.gray)}         ${color('npm i -g hermes-skills-gallery', C.dim)}`,
+    C.bCyan
+  ));
   console.log('');
 }
 
-async function prompt(rl, question) {
+function installSkill(name) {
+  clear();
+  console.log(BANNER);
+  console.log('');
+  console.log(box(
+    `${color('📦  Install Skill', C.bYellow, C.bold)}\n\n` +
+    `${color(name, C.bWhite, C.bold)}\n\n` +
+    `${color('Run this command in your terminal:', C.gray)}\n` +
+    `${color(`  hermes skills install ${name}`, C.bGreen, C.bold)}`,
+    C.bCyan
+  ));
+  console.log('');
+}
+
+async function ask(rl, question, defaultVal) {
+  const prompt = defaultVal !== undefined
+    ? `${question} [${color(defaultVal, C.yellow)}]: `
+    : `${question}: `;
   return new Promise(resolve => {
-    rl.question(question, answer => resolve(answer.trim()));
+    rl.question(prompt, answer => resolve(answer.trim() || (defaultVal || '')));
   });
 }
 
-// ─── Category View ───────────────────────────────────────────────────────────
-function showCategory(catalog, catKey) {
-  clearScreen();
-  const cat = catalog.categories[catKey];
-  if (!cat) return false;
-
-  console.log(BANNER);
-  console.log('');
-  console.log(renderCategoryHeader(cat, Object.keys(cat.skills).length));
-
-  let idx = 1;
-  const skillMap = {};
-  for (const [key, skill] of Object.entries(cat.skills)) {
-    console.log(renderSkillCard(skill, idx));
-    skillMap[idx] = { key, skill };
-    idx++;
-  }
-
-  console.log(colorize('─'.repeat(60), C.dim));
-  console.log(`  ${colorize('[B]', C.bGreen)} Back to categories   ${colorize('[#]', C.bGreen)} Enter number to view skill details`);
-  console.log('');
-
-  return { skillMap, maxIdx: idx - 1 };
-}
-
-// ─── Skill Detail View ───────────────────────────────────────────────────────
-function showSkillDetail(skillKey, skill, catalog) {
-  clearScreen();
-  console.log(BANNER);
-  console.log('');
-
-  const detailBox = box(
-    `${colorize('✨  ' + skill.name, C.bYellow, C.bold)}\n\n` +
-    `${colorize('Description:', C.bWhite, C.bold)}\n` +
-    `  ${skill.description}\n\n` +
-    `${colorize('Tags:', C.bWhite, C.bold)}  ${skill.tags.map(t => colorize('#' + t, C.bCyan)).join('  ')}\n` +
-    `${colorize('Author:', C.bWhite, C.bold)} ${skill.author}\n` +
-    `${colorize('Version:', C.bWhite, C.bold)} ${skill.version}\n\n` +
-    `${colorize('Install Command:', C.bWhite, C.bold)}\n` +
-    `  ${C.dim}${skill.install}${C.reset}`,
-    C.bMagenta
-  );
-
-  console.log(detailBox);
-  console.log('');
-  console.log(`  ${colorize('[I]', C.bGreen)} Copy install command   ${colorize('[B]', C.bGreen)} Back   ${colorize('[M]', C.bGreen)} Main menu`);
-  console.log('');
-}
-
-// ─── Featured View ───────────────────────────────────────────────────────────
-function showFeatured(catalog) {
-  clearScreen();
-  console.log(BANNER);
-  console.log('');
-
-  console.log(box(
-    `${colorize('🔥  Featured Skills', C.bYellow, C.bold)}\n\n` +
-    `  ${C.dim}Hand-picked skills to get you started${C.reset}`,
-    C.bYellow
-  ));
-
-  console.log('');
-
-  const allSkills = getAllSkills(catalog);
-  let idx = 1;
-  const skillMap = {};
-  for (const featuredKey of catalog.featured) {
-    const skill = allSkills[featuredKey];
-    if (skill) {
-      console.log(renderSkillCard(skill, idx));
-      skillMap[idx] = { key: featuredKey, skill };
-      idx++;
-    }
-  }
-
-  console.log(colorize('─'.repeat(60), C.dim));
-  console.log(`  ${colorize('[B]', C.bGreen)} Back   ${colorize('[#]', C.bGreen)} Enter number to view skill details`);
-  console.log('');
-
-  return { skillMap, maxIdx: idx - 1 };
-}
-
-// ─── All Skills View ─────────────────────────────────────────────────────────
-function showAllSkills(catalog) {
-  clearScreen();
-  console.log(BANNER);
-  console.log('');
-
-  const allSkills = getAllSkills(catalog);
-  const entries = Object.entries(allSkills);
-
-  console.log(box(
-    `${colorize('📋  All Skills', C.bBlue, C.bold)}  ${colorize(`(${entries.length} total)`, C.dim)}`,
-    C.bBlue
-  ));
-
-  console.log('');
-
-  let idx = 1;
-  const skillMap = {};
-  for (const [key, skill] of entries) {
-    console.log(renderSkillCard(skill, idx));
-    skillMap[idx] = { key, skill };
-    idx++;
-  }
-
-  console.log(colorize('─'.repeat(60), C.dim));
-  console.log(`  ${colorize('[B]', C.bGreen)} Back   ${colorize('[#]', C.bGreen)} Enter number to view skill details`);
-  console.log('');
-
-  return { skillMap, maxIdx: idx - 1 };
-}
-
-// ─── Search View ─────────────────────────────────────────────────────────────
-async function showSearch(catalog, rl) {
-  clearScreen();
-  console.log(BANNER);
-  console.log('');
-
-  console.log(box(
-    `${colorize('🔍  Search Skills', C.bBlue, C.bold)}\n\n` +
-    `  ${C.dim}Type a search term to find skills${C.reset}`,
-    C.bBlue
-  ));
-  console.log('');
-
-  const query = await prompt(rl, colorize('  Search > ', C.bGreen));
-  if (!query || query.toLowerCase() === 'b') return null;
-
-  const allSkills = getAllSkills(catalog);
-  const q = query.toLowerCase();
-  const results = Object.entries(allSkills).filter(([, skill]) =>
-    skill.name.toLowerCase().includes(q) ||
-    skill.description.toLowerCase().includes(q) ||
-    skill.tags.some(t => t.toLowerCase().includes(q)) ||
-    skill.author.toLowerCase().includes(q)
-  );
-
-  clearScreen();
-  console.log(BANNER);
-  console.log('');
-
-  if (results.length === 0) {
-    console.log(box(
-      `${colorize('😔  No results found for:', C.yellow)}\n` +
-      `    "${query}"\n\n` +
-      `  ${C.dim}Try a different search term${C.reset}`,
-      C.yellow
-    ));
-    console.log(`\n  ${colorize('[Any key]', C.green)} Back`);
-    return null;
-  }
-
-  console.log(box(
-    `${colorize('🔍  Search Results:', C.bBlue, C.bold)} ${colorize(`"${query}"`, C.bWhite)} ${colorize(`(${results.length} found)`, C.dim)}`,
-    C.bBlue
-  ));
-  console.log('');
-
-  let idx = 1;
-  const skillMap = {};
-  for (const [key, skill] of results) {
-    console.log(renderSkillCard(skill, idx));
-    skillMap[idx] = { key, skill };
-    idx++;
-  }
-
-  console.log(colorize('─'.repeat(60), C.dim));
-  console.log(`  ${colorize('[S]', C.bGreen)} New search   ${colorize('[B]', C.bGreen)} Back   ${colorize('[#]', C.bGreen)} Enter number for details`);
-  console.log('');
-
-  return { skillMap, maxIdx: idx - 1 };
-}
-
-// ─── About View ──────────────────────────────────────────────────────────────
-function showAbout() {
-  clearScreen();
-  console.log(BANNER);
-  console.log('');
-
-  console.log(box(
-    `${colorize('ℹ️  About Hermes Skills Gallery', C.bCyan, C.bold)}\n\n` +
-    `${colorize('Version:', C.white, C.bold)}     ${VERSION}\n` +
-    `${colorize('Author:', C.white, C.bold)}      Nous Research\n` +
-    `${colorize('License:', C.white, C.bold)}     MIT\n` +
-    `${colorize('Repository:', C.white, C.bold)}  github.com/uthumany/Hermes-Skills-Gallery\n\n` +
-    `${C.dim}Hermes Skills Gallery is a curated collection of skills${C.reset}\n` +
-    `${C.dim}for Hermes Agent. Browse, discover, and install skills${C.reset}\n` +
-    `${C.dim}to extend your agent's capabilities.${C.reset}\n\n` +
-    `${colorize('Install globally:', C.white, C.bold)}\n` +
-    `  npm install -g hermes-skills-gallery\n\n` +
-    `${colorize('Or run directly:', C.white, C.bold)}\n` +
-    `  npx hermes-skills-gallery`,
-    C.bCyan
-  ));
-  console.log(`\n  ${colorize('[Any key]', C.green)} Back to main menu`);
-}
-
-// ─── Helpers ─────────────────────────────────────────────────────────────────
-function getAllSkills(catalog) {
-  const all = {};
-  for (const cat of Object.values(catalog.categories)) {
-    Object.assign(all, cat.skills);
-  }
-  return all;
-}
-
-function copyToClipboard(text) {
-  try {
-    if (process.platform === 'win32') {
-      execSync(`echo ${text.replace(/'/g, "''")} | clip`, { stdio: 'ignore' });
-    } else if (process.platform === 'darwin') {
-      execSync(`echo '${text.replace(/'/g, "'\\''")}' | pbcopy`, { stdio: 'ignore' });
-    } else {
-      const proc = require('child_process').spawn('xclip', ['-selection', 'clipboard']);
-      proc.stdin.write(text);
-      proc.stdin.end();
-    }
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-// ─── Main Loop ───────────────────────────────────────────────────────────────
-async function main() {
-  const catalog = loadCatalog();
-
+async function interactive(catalog) {
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
@@ -387,296 +194,134 @@ async function main() {
 
   let currentView = 'main';
   let currentCatKey = null;
-  let currentSkillMap = null;
-  let currentMaxIdx = 0;
+  let searchQuery = null;
 
-  function printPrompt() {
-    process.stdout.write(colorize('\n  🌟 Choose > ', C.bGreen));
+  while (true) {
+    if (currentView === 'category' && currentCatKey) {
+      showCategoryView(catalog, currentCatKey);
+      const cmd = (await ask(rl, '\n  Choice')).toUpperCase();
+      if (cmd === 'B' || cmd === 'BACK') { currentView = 'main'; continue; }
+      if (cmd === 'Q' || cmd === 'QUIT') break;
+      if (cmd.startsWith('I ')) { installSkill(cmd.slice(2)); await ask(rl, '\n  Press Enter to continue', ''); continue; }
+      continue;
+    }
+    if (currentView === 'search') {
+      showSearchResults(catalog, searchQuery || '');
+      const cmd = (await ask(rl, '\n  Choice')).toUpperCase();
+      if (cmd === 'B' || cmd === 'BACK') { currentView = 'main'; continue; }
+      if (cmd === 'N' || cmd === 'NEW') {
+        searchQuery = await ask(rl, '\n  Search for');
+        continue;
+      }
+      if (cmd === 'Q' || cmd === 'QUIT') break;
+      if (cmd.startsWith('I ')) { installSkill(cmd.slice(2)); await ask(rl, '\n  Press Enter to continue', ''); continue; }
+      continue;
+    }
+    
+    const { cats } = showMainMenu(catalog);
+    const cmd = (await ask(rl, '\n  Choice')).toUpperCase();
+    
+    if (cmd === 'Q' || cmd === 'QUIT') break;
+    if (cmd === 'I' || cmd === 'INFO') { showInfo(catalog); await ask(rl, '\n  Press Enter to continue', ''); continue; }
+    if (cmd === 'S' || cmd === 'SEARCH') {
+      searchQuery = await ask(rl, '\n  Search for');
+      currentView = 'search';
+      continue;
+    }
+    if (cmd === 'L' || cmd === 'LIST') {
+      clear();
+      console.log(BANNER);
+      console.log('');
+      let list = color('📋  All Categories', C.bWhite, C.bold) + '\n\n';
+      const sorted = Object.entries(catalog.categories).sort((a, b) => b[1].count - a[1].count);
+      for (const [key, cat] of sorted) {
+        list += `  ${color(cat.name.padEnd(30), C.bWhite)} ${color(`(${cat.count} skills)`, C.dim)}\n`;
+      }
+      console.log(box(list, C.bCyan));
+      await ask(rl, '\n  Press Enter to continue', '');
+      continue;
+    }
+    
+    const num = parseInt(cmd);
+    if (num >= 1 && num <= cats.length) {
+      currentCatKey = cats[num - 1][0];
+      currentView = 'category';
+      continue;
+    }
   }
-
-  // Set up raw input handling for single-key navigation
-  if (process.stdin.isTTY) {
-    process.stdin.setRawMode(true);
-    process.stdin.resume();
-  }
-
-  const KEY_MAP = {
-    main: async (key) => {
-      const u = key.toUpperCase();
-      const cats = Object.keys(catalog.categories);
-
-      if (u === 'Q' || key === '\x03') {
-        cleanup();
-        return;
-      }
-
-      const num = parseInt(key);
-      if (num >= 1 && num <= cats.length) {
-        currentCatKey = cats[num - 1];
-        const result = showCategory(catalog, currentCatKey);
-        if (result) {
-          currentView = 'category';
-          currentSkillMap = result.skillMap;
-          currentMaxIdx = result.maxIdx;
-        }
-      } else if (u === 'F') {
-        const result = showFeatured(catalog);
-        if (result) {
-          currentView = 'list';
-          currentSkillMap = result.skillMap;
-          currentMaxIdx = result.maxIdx;
-        }
-      } else if (u === 'S') {
-        const result = await showSearch(catalog, rl);
-        if (result) {
-          currentView = 'searchResults';
-          currentSkillMap = result.skillMap;
-          currentMaxIdx = result.maxIdx;
-        } else {
-          showMainMenu(catalog);
-          currentView = 'main';
-        }
-      } else if (u === 'A') {
-        const result = showAllSkills(catalog);
-        if (result) {
-          currentView = 'list';
-          currentSkillMap = result.skillMap;
-          currentMaxIdx = result.maxIdx;
-        }
-      } else if (u === 'I') {
-        showAbout();
-        currentView = 'about';
-      }
-
-      printPrompt();
-    },
-
-    category: (key) => {
-      const u = key.toUpperCase();
-      if (u === 'B') {
-        showMainMenu(catalog);
-        currentView = 'main';
-        currentCatKey = null;
-      } else if (u === 'M') {
-        showMainMenu(catalog);
-        currentView = 'main';
-        currentCatKey = null;
-      } else {
-        const num = parseInt(key);
-        if (num >= 1 && num <= currentMaxIdx && currentSkillMap[num]) {
-          const { key: skKey, skill } = currentSkillMap[num];
-          showSkillDetail(skKey, skill, catalog);
-          currentView = 'detail';
-          currentSkillKey = skKey;
-        }
-      }
-      printPrompt();
-    },
-
-    list: (key) => {
-      const u = key.toUpperCase();
-      if (u === 'B') {
-        showMainMenu(catalog);
-        currentView = 'main';
-      } else {
-        const num = parseInt(key);
-        if (num >= 1 && num <= currentMaxIdx && currentSkillMap[num]) {
-          const { key: skKey, skill } = currentSkillMap[num];
-          showSkillDetail(skKey, skill, catalog);
-          currentView = 'detail';
-          currentSkillKey = skKey;
-        }
-      }
-      printPrompt();
-    },
-
-    searchResults: async (key) => {
-      const u = key.toUpperCase();
-      if (u === 'B') {
-        showMainMenu(catalog);
-        currentView = 'main';
-      } else if (u === 'S') {
-        const result = await showSearch(catalog, rl);
-        if (result) {
-          currentView = 'searchResults';
-          currentSkillMap = result.skillMap;
-          currentMaxIdx = result.maxIdx;
-        } else {
-          showMainMenu(catalog);
-          currentView = 'main';
-        }
-      } else {
-        const num = parseInt(key);
-        if (num >= 1 && num <= currentMaxIdx && currentSkillMap[num]) {
-          const { key: skKey, skill } = currentSkillMap[num];
-          showSkillDetail(skKey, skill, catalog);
-          currentView = 'detail';
-          currentSkillKey = skKey;
-        }
-      }
-      printPrompt();
-    },
-
-    detail: (key) => {
-      const u = key.toUpperCase();
-      if (u === 'B') {
-        if (currentCatKey) {
-          const result = showCategory(catalog, currentCatKey);
-          if (result) {
-            currentView = 'category';
-            currentSkillMap = result.skillMap;
-            currentMaxIdx = result.maxIdx;
-          }
-        } else {
-          showMainMenu(catalog);
-          currentView = 'main';
-        }
-      } else if (u === 'M') {
-        showMainMenu(catalog);
-        currentView = 'main';
-        currentCatKey = null;
-      } else if (u === 'I') {
-        const allSkills = getAllSkills(catalog);
-        const skill = allSkills[currentSkillKey];
-        if (skill) {
-          const copied = copyToClipboard(skill.install);
-          if (copied) {
-            process.stdout.write('\n' + colorize('  ✅ Install command copied to clipboard!', C.bGreen) + '\n');
-          } else {
-            process.stdout.write('\n' + colorize('  ⚠️  Could not copy to clipboard. Command:', C.yellow) + '\n');
-            process.stdout.write('    ' + C.dim + skill.install + C.reset + '\n');
-          }
-        }
-      }
-      printPrompt();
-    },
-
-    about: (key) => {
-      showMainMenu(catalog);
-      currentView = 'main';
-      printPrompt();
-    },
-  };
-
-  let inputBuffer = '';
-  let currentSkillKey = null;
-
-  process.stdin.on('data', async (data) => {
-    const str = data.toString();
-
-    // Handle escape sequences
-    if (str === '\x1b') {
-      inputBuffer = str;
-      return;
-    }
-    if (inputBuffer === '\x1b' && str === '[') {
-      inputBuffer += str;
-      return;
-    }
-    if (inputBuffer.startsWith('\x1b[')) {
-      // Arrow keys etc. — we ignore them for simplicity
-      inputBuffer = '';
-      return;
-    }
-
-    const key = str.replace(/[\r\n]/g, '');
-    inputBuffer = '';
-
-    if (KEY_MAP[currentView]) {
-      await KEY_MAP[currentView](key);
-    }
-  });
-
-  function cleanup() {
-    if (process.stdin.isTTY) {
-      process.stdin.setRawMode(false);
-    }
-    process.stdin.pause();
-    rl.close();
-    console.log(colorize('\n\n  👋 Thanks for browsing Hermes Skills Gallery!\n', C.bMagenta));
-    process.exit(0);
-  }
-
-  // Handle SIGINT gracefully
-  process.on('SIGINT', cleanup);
-
-  // Show initial view
-  showMainMenu(catalog);
-  printPrompt();
+  rl.close();
+  clear();
+  console.log(BANNER);
+  console.log(color('\n  Thanks for using Hermes Skills Gallery!\n', C.bGreen));
 }
 
-// ─── Direct CLI Flags ────────────────────────────────────────────────────────
+// ─── CLI Flag Mode ──────────────────────────────────────────────
 const args = process.argv.slice(2);
+const flag = args[0] || '';
 
-if (args.includes('--version') || args.includes('-v')) {
-  console.log(`hermes-skills-gallery v${VERSION}`);
+if (flag === '--help' || flag === '-h') {
+  console.log(`Hermes Skills Gallery v${VERSION}`);
+  console.log('');
+  console.log('Usage:');
+  console.log('  hermes-skills-gallery              Interactive browser');
+  console.log('  hermes-skills-gallery --list       List full catalog as JSON');
+  console.log('  hermes-skills-gallery --category <name>  Show a category');
+  console.log('  hermes-skills-gallery --search <query>   Search skills');
+  console.log('  hermes-skills-gallery --stats            Show stats');
   process.exit(0);
 }
 
-if (args.includes('--help') || args.includes('-h')) {
-  console.log(`
-${colorize('Hermes Skills Gallery', C.bMagenta, C.bold)} v${VERSION}
-${C.dim}A curated collection of skills for Hermes Agent by Nous Research${C.reset}
-
-${colorize('Usage:', C.bWhite, C.bold)}
-  hermes-skills-gallery          Launch interactive browser
-  hsg                            Short alias
-  npx hermes-skills-gallery      Run without installing
-
-${colorize('Options:', C.bWhite, C.bold)}
-  --version, -v                  Show version
-  --help, -h                     Show this help
-  --list                         List all skills as JSON
-  --category <name>              List skills in a specific category
-  --search <query>               Search skills
-
-${colorize('Examples:', C.bWhite, C.bold)}
-  hermes-skills-gallery
-  hermes-skills-gallery --list
-  hermes-skills-gallery --category development
-  hermes-skills-gallery --search docker
-`);
+if (flag === '--version' || flag === '-v') {
+  console.log(VERSION);
   process.exit(0);
 }
 
-if (args.includes('--list')) {
-  const catalog = loadCatalog();
+const catalog = loadCatalog();
+
+if (flag === '--list') {
   console.log(JSON.stringify(catalog, null, 2));
   process.exit(0);
 }
 
-const catIdx = args.indexOf('--category');
-if (catIdx !== -1 && args[catIdx + 1]) {
-  const catalog = loadCatalog();
-  const catName = args[catIdx + 1];
-  const cat = catalog.categories[catName];
-  if (cat) {
-    console.log(JSON.stringify(cat, null, 2));
+if (flag === '--stats') {
+  const cats = Object.entries(catalog.categories);
+  console.log(`Total Skills:  ${catalog.total_skills}`);
+  console.log(`Categories:    ${cats.length}`);
+  console.log(`Version:       ${VERSION}`);
+  console.log(`\nTop Categories:`);
+  cats.sort((a, b) => b[1].count - a[1].count).slice(0, 10).forEach(([k, c]) => {
+    console.log(`  ${c.name.padEnd(30)} ${c.count} skills`);
+  });
+  process.exit(0);
+}
+
+if (flag === '--search' && args[1]) {
+  const results = searchSkills(catalog, args[1]);
+  console.log(JSON.stringify(results, null, 2));
+  process.exit(0);
+}
+
+if (flag === '--category' && args[1]) {
+  const q = args[1].toLowerCase();
+  let match = null;
+  for (const [key, cat] of Object.entries(catalog.categories)) {
+    if (key.toLowerCase().includes(q) || cat.name.toLowerCase().includes(q)) {
+      match = { key, ...cat };
+      break;
+    }
+  }
+  if (match) {
+    console.log(JSON.stringify(match, null, 2));
   } else {
-    console.error(`Category "${catName}" not found. Available: ${Object.keys(catalog.categories).join(', ')}`);
+    console.error(`Category "${args[1]}" not found.`);
+    console.error('Available:', Object.keys(catalog.categories).join(', '));
     process.exit(1);
   }
   process.exit(0);
 }
 
-const searchIdx = args.indexOf('--search');
-if (searchIdx !== -1 && args[searchIdx + 1]) {
-  const catalog = loadCatalog();
-  const query = args[searchIdx + 1].toLowerCase();
-  const allSkills = getAllSkills(catalog);
-  const results = Object.entries(allSkills)
-    .filter(([, s]) =>
-      s.name.toLowerCase().includes(query) ||
-      s.description.toLowerCase().includes(query) ||
-      s.tags.some(t => t.includes(query))
-    )
-    .map(([key, s]) => ({ key, ...s }));
-  console.log(JSON.stringify(results, null, 2));
-  process.exit(0);
-}
-
-// Launch interactive mode
-main().catch(err => {
+// No flags -> interactive mode
+interactive(catalog).catch(err => {
   console.error('Error:', err.message);
   process.exit(1);
 });

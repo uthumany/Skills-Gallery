@@ -1,6 +1,6 @@
 {
   "name": "hermes-skills-gallery",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "A curated collection of powerful skills for Hermes Agent by Nous Research — browse, discover, and install skills from the command line",
   "main": "index.js",
   "bin": {
