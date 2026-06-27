@@ -1,0 +1,44 @@
+{
+  "name": "hermes-skills-gallery",
+  "version": "1.0.2",
+  "description": "A curated collection of powerful skills for Hermes Agent by Nous Research — browse, discover, and install skills from the command line",
+  "main": "index.js",
+  "bin": {
+    "hermes-skills-gallery": "cli.js",
+    "hsg": "cli.js"
+  },
+  "files": [
+    "cli.js",
+    "index.js",
+    "data/skills-catalog.json",
+    "README.md"
+  ],
+  "scripts": {
+    "start": "node cli.js",
+    "test": "node -e \"const g = require('./index.js'); console.log('Skills loaded:', g.stats.total_skills); console.log('Categories:', g.stats.total_categories);\""
+  },
+  "keywords": [
+    "hermes",
+    "hermes-agent",
+    "skills",
+    "gallery",
+    "nous-research",
+    "ai",
+    "cli",
+    "catalog",
+    "skill-management"
+  ],
+  "author": "Uthuman & Co <dev@uthuman.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uthumany/Hermes-Skills-Gallery.git"
+  },
+  "bugs": {
+    "url": "https://github.com/uthumany/Hermes-Skills-Gallery/issues"
+  },
+  "homepage": "https://github.com/uthumany/Hermes-Skills-Gallery#readme",
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

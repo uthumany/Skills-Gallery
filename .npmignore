@@ -1,0 +1,11 @@
+.git
+.github
+.gitignore
+scripts/
+data/
+hermes_skills_gallery/
+pyproject.toml
+__pycache__
+*.pyc
+.venv
+venv

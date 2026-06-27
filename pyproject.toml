@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "hermes-skills-gallery"
+version = "1.0.1"
+description = "The ultimate all-in-one gallery of 1,600+ AI agent skills for Hermes Agent — browse, discover, and install skills by category from your terminal."
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Uthuman & Co", email = "dev@uthuman.com"}
+]
+keywords = [
+    "hermes-agent", "ai-skills", "ai-agents", "skills-gallery",
+    "agent-skills", "cli", "terminal", "automation", "developer-tools",
+    "ai-tools", "skill-management", "multi-agent", "hermes"
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "rich>=13.0",
+    "click>=8.0",
+    "requests>=2.28",
+]
+
+[project.urls]
+Homepage = "https://github.com/uthumany/Hermes-Skills-Gallery"
+Repository = "https://github.com/uthumany/Hermes-Skills-Gallery"
+Issues = "https://github.com/uthumany/Hermes-Skills-Gallery/issues"
+Changelog = "https://github.com/uthumany/Hermes-Skills-Gallery/blob/master/CHANGELOG.md"
+
+[project.scripts]
+hermes-skills = "hermes_skills_gallery.cli:main"
+hsk = "hermes_skills_gallery.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["hermes_skills_gallery*"]
+
+[tool.setuptools.package-data]
+hermes_skills_gallery = ["data/*.json"]

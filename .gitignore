@@ -1,0 +1,17 @@
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+dist/
+build/
+*.egg-info/
+.env
+.npmrc
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.hermes/
